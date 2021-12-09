@@ -1,0 +1,58 @@
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+input[type="date"] {
+    width: 15rem;
+    height: 3.125rem;
+    font-size: 1.2rem;
+    margin-inline: auto;
+    color: black;
+}
+
+.content {
+    width: 90%;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.bearish h2, .trade-day h2, .trade-vol h2 {
+    margin-bottom: 0
+}
+
+.bearish p, .trade-day p, .trade-vol p {
+    margin-block: 0.4rem;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.item {
+    display: block;
+}
+
+@media only screen and (min-width: 768px) {
+    .content form {
+        display: flex;
+        justify-content: space-evenly;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .content {
+        width: 80%;
+    }
+
+    #result {
+        margin-top: 3rem;
+    }
+
+    .bearish, .trade-day, .trade-vol {
+        margin-top: 2.5rem;
+    }
+}
