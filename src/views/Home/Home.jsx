@@ -1,10 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import "./Home.css";
+import { dateToInput, dateToUnixtimestamp } from "../../utils/DateHelpers";
 
 function Home() {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(dateToInput(Date.now() - 86400000));
+  const [endDate, setEndDate] = useState(dateToInput(Date.now()));
+  const [prices, setPrices] = useState([]);
+  const [marketCaps, setMarketCaps] = useState([]);
+  const [volumes, setVolumes] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  async function getData() {
+    fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${dateToUnixtimestamp(startDate)}&to=${dateToUnixtimestamp(endDate)}`)
+      .then(response => response.json())
+      .then(data => {
+        setPrices(data.prices);
+        setMarketCaps(data.market_caps);
+        setVolumes(data.total_volumes);
+      });
+  }
 
   function handleDateInput(e) {
     e.preventDefault();
@@ -13,6 +31,7 @@ function Home() {
     } else {
       setEndDate(e.target.value);
     }
+    getData();
   }
 
   return (
