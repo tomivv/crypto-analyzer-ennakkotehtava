@@ -8,7 +8,7 @@ function dateToUnixtimestamp(date) {
 }
 
 function unixtimestampToDate(date) {
-  return new Date(date).toUTCString();
+  return new Date(date).toLocaleDateString();
 }
 
 function getLongestBearish(prices) {
@@ -28,6 +28,21 @@ function getLongestBearish(prices) {
   return maxDays;
 }
 
+function getHightestTradeVolume(volumes) {
+  const realVolumes = volumes.filter(checkTimeUTC);
+  let highestVolume = {
+    amount: 0,
+    date: 0
+  };
+  realVolumes.forEach(volume => {
+    if (highestVolume.amount < volume[1]) {
+      highestVolume.amount = volume[1];
+      highestVolume.date = volume[0];
+    }
+  });
+  return highestVolume;
+}
+
 
 // check if time close to midnight
 function checkTimeUTC(time) {
@@ -44,4 +59,5 @@ module.exports = {
   dateToUnixtimestamp,
   unixtimestampToDate,
   getLongestBearish,
+  getHightestTradeVolume
 }

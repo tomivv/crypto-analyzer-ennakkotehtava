@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import "./Home.css";
-import { dateToInput, dateToUnixtimestamp, getLongestBearish } from "../../utils/DateHelpers";
+import { dateToInput, dateToUnixtimestamp, getLongestBearish, getHightestTradeVolume, unixtimestampToDate } from "../../utils/DateHelpers";
 
 function Home() {
   const [startDate, setStartDate] = useState(dateToInput(new Date("2021-12-12").getTime()));
@@ -32,7 +32,7 @@ function Home() {
       setEndDate(e.target.value);
     }
   }
-
+  const volume = getHightestTradeVolume(volumes);
   return (
     <>
       <Header />
@@ -64,11 +64,11 @@ function Home() {
             <div className="flex-container">
               <div className="item">
                 <h3>Trade volume</h3>
-                <p>312341234 €</p>
+                <p>{Math.round(volume.amount)} €</p>
               </div>
               <div className="item">
                 <h3>Day</h3>
-                <p>5/12/2021</p>
+                <p>{unixtimestampToDate(volume.date)}</p>
               </div>
             </div>
           </div>
