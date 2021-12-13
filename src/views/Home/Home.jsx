@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import "./Home.css";
-import { dateToInput, dateToUnixtimestamp } from "../../utils/DateHelpers";
+import { dateToInput, dateToUnixtimestamp, getLongestBearish } from "../../utils/DateHelpers";
 
 function Home() {
-  const [startDate, setStartDate] = useState(dateToInput(Date.now() - 86400000));
-  const [endDate, setEndDate] = useState(dateToInput(Date.now()));
+  const [startDate, setStartDate] = useState(dateToInput(new Date("2021-12-12").getTime()));
+  const [endDate, setEndDate] = useState(dateToInput(new Date("2021-12-13").getTime()));
   const [prices, setPrices] = useState([]);
   const [marketCaps, setMarketCaps] = useState([]);
   const [volumes, setVolumes] = useState([]);
 
   useEffect(() => {
-    getData();
-  }, []);
+    async function getData() {
+        fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${dateToUnixtimestamp(startDate)}&to=${dateToUnixtimestamp(endDate)}`)
+          .then(response => response.json())
+          .then(data => {
+            setPrices(data.prices);
+            setMarketCaps(data.market_caps);
+            setVolumes(data.total_volumes);
+          });
+    }
 
-  async function getData() {
-    fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${dateToUnixtimestamp(startDate)}&to=${dateToUnixtimestamp(endDate)}`)
-      .then(response => response.json())
-      .then(data => {
-        setPrices(data.prices);
-        setMarketCaps(data.market_caps);
-        setVolumes(data.total_volumes);
-      });
-  }
+    getData();
+  }, [endDate, startDate]);
 
   function handleDateInput(e) {
     e.preventDefault();
@@ -31,7 +31,6 @@ function Home() {
     } else {
       setEndDate(e.target.value);
     }
-    getData();
   }
 
   return (
@@ -56,15 +55,7 @@ function Home() {
             <div className="flex-container">
               <div className="item">
                 <h3>Days</h3>
-                <p>3</p>
-              </div>
-              <div className="item">
-                <h3>Start</h3>
-                <p>1/12/2021</p>
-              </div>
-              <div className="item">
-                <h3>End</h3>
-                <p>4/12/2021</p>
+                <p>{getLongestBearish(prices)}</p>
               </div>
             </div>
           </div>
