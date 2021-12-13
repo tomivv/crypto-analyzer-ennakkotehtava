@@ -44,6 +44,35 @@ function getHightestTradeVolume(volumes) {
 }
 
 
+// doesn't check if dates are correct
+function getOptimalTradeDays(prices) {
+  const realPrices = prices.filter(checkTimeUTC);
+
+  let optimalPrices = {
+    buy: {
+      price: 0,
+      date: 0
+    },
+    sell: {
+      price: 0,
+      date: 0
+    }
+  }
+
+  realPrices.forEach(price => {
+    if (optimalPrices.buy.price > price[1] || optimalPrices.buy.price === 0) {
+      optimalPrices.buy.price = price[1];
+      optimalPrices.buy.date = price[0];
+    } else if (optimalPrices.sell.price < price[1] && price[1] > optimalPrices.buy.price) {
+      optimalPrices.sell.price = price[1];
+      optimalPrices.sell.date = price[0];
+    }
+  });
+
+  return optimalPrices;
+}
+
+
 // check if time close to midnight
 function checkTimeUTC(time) {
   const date = new Date(time[0]);
@@ -59,5 +88,6 @@ module.exports = {
   dateToUnixtimestamp,
   unixtimestampToDate,
   getLongestBearish,
-  getHightestTradeVolume
+  getHightestTradeVolume,
+  getOptimalTradeDays
 }
