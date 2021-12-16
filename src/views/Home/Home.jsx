@@ -4,10 +4,9 @@ import "./Home.css";
 import { dateToInput, dateToUnixtimestamp, getLongestBearish, getHightestTradeVolume, unixtimestampToDate, getOptimalTradeDays } from "../../utils/DateHelpers";
 
 function Home() {
-  const [startDate, setStartDate] = useState(dateToInput(new Date("2021-12-12").getTime()));
-  const [endDate, setEndDate] = useState(dateToInput(new Date("2021-12-13").getTime()));
+  const [startDate, setStartDate] = useState(dateToInput(Date.now() - 86400000));
+  const [endDate, setEndDate] = useState(dateToInput(Date.now()));
   const [prices, setPrices] = useState([]);
-//   const [marketCaps, setMarketCaps] = useState([]);
   const [volumes, setVolumes] = useState([]);
 
   useEffect(() => {
@@ -16,7 +15,6 @@ function Home() {
           .then(response => response.json())
           .then(data => {
             setPrices(data.prices);
-            // setMarketCaps(data.market_caps);
             setVolumes(data.total_volumes);
           });
     }
@@ -36,7 +34,6 @@ function Home() {
 
   const tradeDays = getOptimalTradeDays(prices);
 
-  console.log(tradeDays);
   return (
     <>
       <Header />
@@ -45,11 +42,11 @@ function Home() {
           <form>
             <div className="input-group">
               <label htmlFor="startDate">Start date</label>
-              <input type="date" name="startDate" id="startDate" value={startDate} onChange={handleDateInput} />
+              <input type="date" name="startDate" id="startDate" value={startDate} onChange={handleDateInput} max={dateToInput(new Date(endDate).getTime() - 86400000)} />
             </div>
             <div className="input-group">
               <label htmlFor="endDate">End date</label>
-              <input type="date" name="endDate" id="endDate" value={endDate} onChange={handleDateInput} />
+              <input type="date" name="endDate" id="endDate" value={endDate} onChange={handleDateInput} min={dateToInput(new Date(startDate).getTime() + 86400000)} />
             </div>
           </form>
         </section>
