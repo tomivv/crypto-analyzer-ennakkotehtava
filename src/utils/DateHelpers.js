@@ -44,32 +44,61 @@ function getHightestTradeVolume(volumes) {
 }
 
 
-// doesn't check if dates are correct
+function getLowestPrice(arr) {
+  if (arr.length === 0) {
+    return;
+  }
+  return arr.reduce((prev, curr) => {
+    return prev.price < curr.price ? prev : curr;
+  });
+}
+
+function getHighestMargin(arr){
+  if (arr.length === 0) {
+    return;
+  }
+  return arr.reduce((prev, curr) => {
+    return prev.margin > curr.margin ? prev : curr;
+  });
+}
+
+
 function getOptimalTradeDays(prices) {
   const realPrices = prices.filter(checkTimeUTC);
 
-  let optimalPrices = {
-    buy: {
-      price: 0,
-      date: 0
-    },
-    sell: {
-      price: 0,
-      date: 0
-    }
-  }
+  let optimalPrices = [];
 
+  // get all best buy prices
   realPrices.forEach(price => {
-    if (optimalPrices.buy.price > price[1] || optimalPrices.buy.price === 0) {
-      optimalPrices.buy.price = price[1];
-      optimalPrices.buy.date = price[0];
-    } else if (optimalPrices.sell.price < price[1] && price[1] > optimalPrices.buy.price) {
-      optimalPrices.sell.price = price[1];
-      optimalPrices.sell.date = price[0];
+    if (optimalPrices.length === 0) {
+      optimalPrices.push({
+        price: price[1],
+        date: price[0],
+        margin: 0,
+        sell: 0,
+      });
+    } else if (getLowestPrice(optimalPrices).price > price[1]) {
+      optimalPrices.push({
+        price: price[1],
+        date: price[0],
+        margin: 0,
+        sell: 0,
+      });
     }
   });
 
-  return optimalPrices;
+  // calculate margins for every buy date
+  optimalPrices.forEach(date => {
+    realPrices.forEach(price => {
+      // check that price is higher than buy price and date is older
+      if (date.price < price[1] && date.date < price[0]) {
+        date.margin = price[1] - date.price;
+        date.sell = price[0];
+      }
+    });
+  });
+  // return optimalPrices;
+  return getHighestMargin(optimalPrices);
 }
 
 

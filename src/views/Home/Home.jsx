@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
+import TradeDays from "../../components/TradeDays";
 import "./Home.css";
 import { dateToInput, dateToUnixtimestamp, getLongestBearish, getHightestTradeVolume, unixtimestampToDate, getOptimalTradeDays } from "../../utils/DateHelpers";
 
@@ -73,19 +74,7 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="trade-day">
-          <h2>Optimal trading days</h2>          
-            <div className="flex-container">
-              <div className="item">
-                <h3>Buy</h3>
-                <p>{unixtimestampToDate(tradeDays.buy.date)}</p>
-              </div>
-              <div className="item">
-                <h3>Sell</h3>
-                <p>{unixtimestampToDate(tradeDays.sell.date)}</p>
-              </div>
-            </div>
-          </div>
+          <TradeDays data={tradeDays}/>
         </section>
       </main>
     </>
