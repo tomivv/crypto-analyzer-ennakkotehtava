@@ -3,8 +3,22 @@ import { unixtimestampToDate } from "../utils/DateHelpers";
 
 function TradeDays(props) {
   if (typeof props.data === "undefined") {
-    return <div>loadign</div>
+    return <div>loading</div>
   }
+  // return no optimal trade days
+  if (props.data.sell === 0) {
+    return (
+      <div className="trade-day">
+      <h2>Optimal trading days</h2>         
+        <div className="flex-container">
+          <div className="item">
+            <h3>There are no good days to buy or sell bitcoin</h3>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  // return optimal trade days
   return (
     <div className="trade-day">
     <h2>Optimal trading days</h2>         
