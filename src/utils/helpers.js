@@ -2,9 +2,15 @@ function dateToInput(date) {
   return new Date(date).toISOString().split('T')[0];
 }
 
-function dateToUnixtimestamp(date) {
-  // add 3 hours to date to make sure we get time close to midnight utc
-  return (new Date(date).getTime() + 86400 * 3) / 1000;
+function dateToUnixtimestamp(date, start = false) {
+  const year = date.split('-')[0];
+  const month = date.split('-')[1];
+  const day = date.split('-')[2];
+  if (start) {
+    return new Date(Date.UTC(year, month - 1, day, 0)).getTime() / 1000;
+  } else {
+    return new Date(Date.UTC(year, month - 1, day, 1)).getTime() / 1000;
+  }
 }
 
 function unixtimestampToDate(date) {

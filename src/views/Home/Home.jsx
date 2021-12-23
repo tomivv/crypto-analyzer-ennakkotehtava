@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import TradeDays from "../../components/TradeDays";
 import "./Home.css";
-import { dateToInput, dateToUnixtimestamp, getLongestBearish, getHightestTradeVolume, unixtimestampToDate, getOptimalTradeDays } from "../../utils/DateHelpers";
+import { dateToInput, dateToUnixtimestamp, getLongestBearish, getHightestTradeVolume, unixtimestampToDate, getOptimalTradeDays } from "../../utils/helpers";
 
 function Home() {
   const [startDate, setStartDate] = useState(dateToInput(Date.now() - 86400000));
@@ -12,7 +12,7 @@ function Home() {
 
   useEffect(() => {
     async function getData() {
-        fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${dateToUnixtimestamp(startDate)}&to=${dateToUnixtimestamp(endDate)}`)
+        fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${dateToUnixtimestamp(startDate, true)}&to=${dateToUnixtimestamp(endDate)}`)
           .then(response => response.json())
           .then(data => {
             setPrices(data.prices);

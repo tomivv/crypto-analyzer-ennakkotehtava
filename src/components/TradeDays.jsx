@@ -1,5 +1,5 @@
 import React from "react";
-import { unixtimestampToDate } from "../utils/DateHelpers";
+import { unixtimestampToDate } from "../utils/helpers";
 
 function TradeDays(props) {
   if (typeof props.data === "undefined") {
