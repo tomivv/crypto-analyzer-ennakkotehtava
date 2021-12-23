@@ -9,7 +9,7 @@ function TradeDays(props) {
   if (props.data.sell === 0) {
     return (
       <div className="trade-day">
-      <h2>Optimal trading days</h2>         
+        <h2>Optimal trading days</h2>         
         <div className="flex-container">
           <div className="item">
             <h3>There are no good days to buy or sell bitcoin</h3>
@@ -21,7 +21,7 @@ function TradeDays(props) {
   // return optimal trade days
   return (
     <div className="trade-day">
-    <h2>Optimal trading days</h2>         
+      <h2>Optimal trading days</h2>         
       <div className="flex-container">
         <div className="item">
           <h3>Buy</h3>

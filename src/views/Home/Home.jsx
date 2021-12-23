@@ -31,8 +31,8 @@ function Home() {
       setEndDate(e.target.value);
     }
   }
-  const volume = getHightestTradeVolume(volumes);
 
+  const volume = getHightestTradeVolume(volumes);
   const tradeDays = getOptimalTradeDays(prices);
 
   return (

@@ -6,6 +6,7 @@ function dateToUnixtimestamp(date, start = false) {
   const year = date.split('-')[0];
   const month = date.split('-')[1];
   const day = date.split('-')[2];
+
   if (start) {
     return new Date(Date.UTC(year, month - 1, day, 0)).getTime() / 1000;
   } else {

@@ -32,10 +32,6 @@ input[type="date"] {
     justify-content: space-evenly;
 }
 
-.item {
-    display: block;
-}
-
 @media only screen and (min-width: 768px) {
     .content form {
         display: flex;
